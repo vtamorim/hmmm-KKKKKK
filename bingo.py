@@ -70,10 +70,8 @@ class Bingo:
                 print(f"\n=> Última dezena sorteada: {escolha_pc}")
                 print("Dezenas Sorteadas até o momento:", ' '.join(map(str, self.list_contagem)))
 
-   
-                self.marcar_numero(self.jog1_lista, escolha_pc)
-                self.marcar_numero(self.jog2_lista, escolha_pc)
-
+                self.marcar_numero(self.jog1_lista, escolha_pc, "Jogador 1")
+                self.marcar_numero(self.jog2_lista, escolha_pc, "Jogador 2")
 
                 print("\nJogador 1:")
                 for linha in self.jog1_lista:
@@ -83,16 +81,29 @@ class Bingo:
                 print("Jogador 2:")
                 for linha in self.jog2_lista:
                     print(linha)
-                print("Presione Enter para continuar")
+                print("Pressione Enter para continuar")
                 keyboard.wait("enter")
 
-    def marcar_numero(self, cartela, numero):
-        """Marca o número sorteado dentro da cartela colocando parênteses ao redor."""
+    def marcar_numero(self, cartela, numero, jogador):
+        "Marca o número sorteado dentro da cartela colocando parênteses ao redor."
         for i in range(len(cartela)):
             for j in range(len(cartela[i])):
                 if cartela[i][j] == numero:
                     cartela[i][j] = f"({numero})"
+                    if self.verificar_vitoria(cartela, jogador):
+                        return True
+        return False
+
+    def verificar_vitoria(self, cartela, jogador):
+        "Verifica se o jogador completou a cartela."
+        acertos = sum([1 for linha in cartela for num in linha if isinstance(num, str) and num.startswith('(')])
+        if acertos == 6 or acertos == 12:
+            print(f"{jogador} ganhou \o/")
+            print(self.jog1_lista)
+            quit('Obrigado por Jogar!')
+        return False
 
 if __name__ == '__main__':
     jogo = Bingo()
     jogo.start()
+
