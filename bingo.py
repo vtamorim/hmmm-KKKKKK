@@ -1,7 +1,7 @@
 import random
 import time
 import keyboard
-
+#Victor Miguel
 class Bingo:
     def __init__(self):
         self.jog1_lista = [] 
